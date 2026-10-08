@@ -1,5 +1,5 @@
 -- ========================================================
--- PREMIUM ANIMATED UI HUB (FATALITY CS2 LOGO EDITION)
+-- PREMIUM ANIMATED UI HUB (FATALITY CS2 "F" LOGO EDITION)
 -- Кнопка скрытия/открытия: INSERT
 -- ========================================================
 
@@ -46,9 +46,9 @@ local MainCorner = Instance.new("UICorner")
 MainCorner.CornerRadius = UDim.new(0, 8)
 MainCorner.Parent = MainFrame
 
--- Двойная неоновая обводка (Статичная бирюзовая под Fatality)
+-- Неоновая обводка меню (В тон логотипа Fatality)
 local MainStroke = Instance.new("UIStroke")
-MainStroke.Color = Color3.fromRGB(0, 255, 204)
+MainStroke.Color = Color3.fromRGB(255, 40, 100)
 MainStroke.Thickness = 1.5
 MainStroke.Parent = MainFrame
 
@@ -64,60 +64,57 @@ NavStroke.Color = Color3.fromRGB(20, 20, 25)
 NavStroke.Parent = LeftNav
 
 -- ========================================================
--- ТОЧНАЯ КОПИЯ ЛОГОТИПА FATALITY (ТРЕХСЛОЙНОЕ КОЛЬЦО)
+-- ТОЧНАЯ КОПИЯ ГЕОМЕТРИЧЕСКОГО ЛОГОТИПА "F" С ГРАДИЕНТОМ
 -- ========================================================
-local LogoFrame = Instance.new("Frame")
-LogoFrame.Size = UDim2.new(0, 65, 0, 65)
-LogoFrame.BackgroundTransparency = 1
-LogoFrame.Parent = LeftNav
+local LogoContainer = Instance.new("Frame")
+LogoContainer.Size = UDim2.new(0, 65, 0, 65)
+LogoContainer.BackgroundTransparency = 1
+LogoContainer.Parent = LeftNav
 
--- 1. Внешняя тонкая бирюзовая орбита
-local OuterRing = Instance.new("Frame")
-OuterRing.Size = UDim2.new(0, 42, 0, 42)
-OuterRing.Position = UDim2.new(0.5, -21, 0.5, -21)
-OuterRing.BackgroundTransparency = 1
-OuterRing.Parent = LogoFrame
+-- Контейнер самой буквы для удобного применения градиента и анимаций
+local LetterF = Instance.new("Frame")
+LetterF.Size = UDim2.new(0, 28, 0, 36)
+LetterF.Position = UDim2.new(0.5, -14, 0.5, -18)
+LetterF.BackgroundTransparency = 1
+LetterF.Parent = LogoContainer
 
-Instance.new("UICorner", OuterRing).CornerRadius = UDim.new(1, 0)
-local OuterStroke = Instance.new("UIStroke", OuterRing)
-OuterStroke.Color = Color3.fromRGB(0, 200, 255) -- Бирюзовый
-OuterStroke.Thickness = 1.5
+-- 1. Вертикальная основная палочка буквы F
+local MainStem = Instance.new("Frame")
+MainStem.Size = UDim2.new(0, 8, 1, 0)
+MainStem.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+MainStem.BorderSizePixel = 0
+MainStem.Parent = LetterF
 
--- 2. Среднее неоновое розово-красное кольцо
-local MiddleRing = Instance.new("Frame")
-MiddleRing.Size = UDim2.new(0, 32, 0, 32)
-MiddleRing.Position = UDim2.new(0.5, -16, 0.5, -16)
-MiddleRing.BackgroundTransparency = 1
-MiddleRing.Parent = LogoFrame
+-- 2. Верхняя горизонтальная черта
+local TopBar = Instance.new("Frame")
+TopBar.Size = UDim2.new(1, 0, 0, 8)
+TopBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TopBar.BorderSizePixel = 0
+TopBar.Parent = LetterF
 
-Instance.new("UICorner", MiddleRing).CornerRadius = UDim.new(1, 0)
-local MiddleStroke = Instance.new("UIStroke", MiddleRing)
-MiddleStroke.Color = Color3.fromRGB(255, 40, 80) -- Розово-красный неон
-MiddleStroke.Thickness = 2.5
+-- 3. Средняя горизонтальная черта
+local MiddleBar = Instance.new("Frame")
+MiddleBar.Size = UDim2.new(0, 18, 0, 7)
+MiddleBar.Position = UDim2.new(0, 0, 0, 15)
+MiddleBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+MiddleBar.BorderSizePixel = 0
+MiddleBar.Parent = LetterF
 
--- 3. Центральное сплошное голубое ядро
-local CenterCore = Instance.new("Frame")
-CenterCore.Size = UDim2.new(0, 20, 0, 20)
-CenterCore.Position = UDim2.new(0.5, -10, 0.5, -10)
-CenterCore.BackgroundColor3 = Color3.fromRGB(0, 130, 255) -- Голубой
-CenterCore.BorderSizePixel = 0
-CenterCore.Parent = LogoFrame
+-- Фирменный вертикальный градиент Fatality (Красный -> Маджента/Фиолетовый)
+local FatalityGradient = Instance.new("UIGradient")
+FatalityGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 20, 50)),   -- Ярко-красный верх
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(180, 20, 150))  -- Розово-фиолетовый низ
+})
+FatalityGradient.Rotation = 90 -- Вертикальное направление градиента
+FatalityGradient.Parent = LetterF
 
-Instance.new("UICorner", CenterCore).CornerRadius = UDim.new(1, 0)
-
--- Эффект «дыхания» и пульсации для ядра и колец
+-- Небольшой анимированный эффект "свечения" обводки меню
 task.spawn(function()
     while task.wait(0.05) do
         if MainFrame.Parent then
-            local t = os.clock()
-            -- Мягкая пульсация размеров
-            local pulse = math.sin(t * 4) * 2
-            CenterCore.Size = UDim2.new(0, 20 + pulse, 0, 20 + pulse)
-            CenterCore.Position = UDim2.new(0.5, -(10 + pulse/2), 0.5, -(10 + pulse/2))
-            
-            local ringPulse = math.cos(t * 4) * 1.5
-            MiddleRing.Size = UDim2.new(0, 32 + ringPulse, 0, 32 + ringPulse)
-            MiddleRing.Position = UDim2.new(0.5, -(16 + ringPulse/2), 0.5, -(16 + ringPulse/2))
+            local pulse = math.sin(os.clock() * 3)
+            MainStroke.Color = Color3.fromRGB(220 + (pulse * 35), 20, 100 - (pulse * 40))
         end
     end
 end)
@@ -147,7 +144,7 @@ local function createNavIcon(emojiText, isActive)
     
     Instance.new("UICorner", Icon).CornerRadius = UDim.new(0, 6)
     local s = Instance.new("UIStroke", Icon)
-    s.Color = isActive and Color3.fromRGB(0, 150, 255) or Color3.fromRGB(15, 15, 20)
+    s.Color = isActive and Color3.fromRGB(255, 40, 100) or Color3.fromRGB(15, 15, 20)
 
     Icon.MouseEnter:Connect(function()
         if Icon.TextColor3 ~= Color3.fromRGB(255, 255, 255) then
@@ -187,11 +184,11 @@ local function createSubTab(text, posX, isActive)
 
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 4)
     local stroke = Instance.new("UIStroke", Btn)
-    stroke.Color = isActive and Color3.fromRGB(0, 150, 255) or Color3.fromRGB(25, 25, 30)
+    stroke.Color = isActive and Color3.fromRGB(255, 40, 100) or Color3.fromRGB(25, 25, 30)
     
     Btn.MouseButton1Click:Connect(function()
         TweenService:Create(Btn, TWEEN_INFO, {BackgroundColor3 = Color3.fromRGB(16, 16, 22), TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
-        TweenService:Create(stroke, TWEEN_INFO, {Color = Color3.fromRGB(0, 150, 255)}):Play()
+        TweenService:Create(stroke, TWEEN_INFO, {Color = Color3.fromRGB(255, 40, 100)}):Play()
     end)
 end
 
@@ -267,13 +264,14 @@ local function createCheckbox(text, parent)
     Label.TextColor3 = Color3.fromRGB(150, 150, 160)
     Label.Font = Enum.Font.GothamSemibold
     Label.TextSize = 13
-Label.TextXAlignment = Enum.TextXAlignment.Left
-Label.Parent = Box
-local active = false
-Clicker.MouseButton1Click:Connect(function()
-active = not active
-local targetColor = active and Color3.fromRGB(0, 150, 255) or Color3.fromRGB(20, 20, 25)
-local strokeColor = active and Color3.fromRGB(0, 200, 255) or Color3.fromRGB(45, 45, 50)
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = Box
+
+    local active = false
+    Clicker.MouseButton1Click:Connect(function()
+        active = not active
+local targetColor = active and Color3.fromRGB(255, 40, 100) or Color3.fromRGB(20, 20, 25)
+local strokeColor = active and Color3.fromRGB(255, 80, 150) or Color3.fromRGB(45, 45, 50)
 local textColor = active and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(150, 150, 160)
 TweenService:Create(Clicker, TWEEN_INFO, {BackgroundColor3 = targetColor}):Play()
 TweenService:Create(ClickStroke, TWEEN_INFO, {Color = strokeColor}):Play()
@@ -308,7 +306,7 @@ Box.Parent = Drop
 Instance.new("UICorner", Box).CornerRadius = UDim.new(0, 4)
 local BoxStroke = Instance.new("UIStroke", Box)
 BoxStroke.Color = Color3.fromRGB(25, 25, 30)
-Box.MouseEnter:Connect(function() TweenService:Create(BoxStroke, TWEEN_INFO, {Color = Color3.fromRGB(40, 40, 50)}):Play() end)
+Box.MouseEnter:Connect(function() TweenService:Create(BoxStroke, TWEEN_INFO, {Color = Color3.fromRGB(50, 50, 60)}):Play() end)
 Box.MouseLeave:Connect(function() TweenService:Create(BoxStroke, TWEEN_INFO, {Color = Color3.fromRGB(25, 25, 30)}):Play() end)
 end
 local function createSlider(text, min, max, default, suffix, parent)
@@ -334,7 +332,7 @@ Track.Parent = Slider
 Instance.new("UICorner", Track)
 local Fill = Instance.new("Frame")
 Fill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
-Fill.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+Fill.BackgroundColor3 = Color3.fromRGB(255, 40, 100)
 Fill.BorderSizePixel = 0
 Fill.Parent = Track
 Instance.new("UICorner", Fill)
@@ -407,4 +405,4 @@ local delta = input.Position - dragStart
 MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 end
 end)
-print("Премиум GUI Fatality успешно загружено!")
+print("Премиум GUI Fatality 'F' успешно загружено!")
