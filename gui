@@ -1,5 +1,5 @@
 -- ========================================================
--- PREMIUM ANIMATED UI HUB (ABSTRACT EMBLEM EDITION)
+-- PREMIUM ANIMATED UI HUB (FATALITY CS2 LOGO EDITION)
 -- Кнопка скрытия/открытия: INSERT
 -- ========================================================
 
@@ -10,6 +10,7 @@ local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
 local LocalPlayer = Players.LocalPlayer
 
+-- Очистка старой копии
 if CoreGui:FindFirstChild("PremiumCheatHub") then
     CoreGui.PremiumCheatHub:Destroy()
 end
@@ -25,11 +26,13 @@ ScreenGui.Name = "PremiumCheatHub"
 ScreenGui.Parent = CoreGui
 ScreenGui.ResetOnSpawn = false
 
+-- Создание размытия заднего фона
 local BlurEffect = Instance.new("BlurEffect")
 BlurEffect.Name = "MenuBlur"
 BlurEffect.Size = 15
 BlurEffect.Parent = Lighting
 
+-- Главное окно
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Size = UDim2.new(0, 700, 0, 500)
@@ -43,11 +46,13 @@ local MainCorner = Instance.new("UICorner")
 MainCorner.CornerRadius = UDim.new(0, 8)
 MainCorner.Parent = MainFrame
 
+-- Двойная неоновая обводка (Статичная бирюзовая под Fatality)
 local MainStroke = Instance.new("UIStroke")
-MainStroke.Color = Color3.fromRGB(0, 150, 255)
+MainStroke.Color = Color3.fromRGB(0, 255, 204)
 MainStroke.Thickness = 1.5
 MainStroke.Parent = MainFrame
 
+-- ЛЕВАЯ ПАНЕЛЬ С ИКОНКАМИ
 local LeftNav = Instance.new("Frame")
 LeftNav.Size = UDim2.new(0, 65, 1, 0)
 LeftNav.BackgroundColor3 = Color3.fromRGB(6, 6, 8)
@@ -58,56 +63,65 @@ local NavStroke = Instance.new("UIStroke")
 NavStroke.Color = Color3.fromRGB(20, 20, 25)
 NavStroke.Parent = LeftNav
 
+-- ========================================================
+-- ТОЧНАЯ КОПИЯ ЛОГОТИПА FATALITY (ТРЕХСЛОЙНОЕ КОЛЬЦО)
+-- ========================================================
 local LogoFrame = Instance.new("Frame")
 LogoFrame.Size = UDim2.new(0, 65, 0, 65)
 LogoFrame.BackgroundTransparency = 1
 LogoFrame.Parent = LeftNav
 
-local LogoRing1 = Instance.new("Frame")
-LogoRing1.Size = UDim2.new(0, 24, 0, 24)
-LogoRing1.Position = UDim2.new(0.5, -12, 0.5, -12)
-LogoRing1.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
-LogoRing1.BackgroundTransparency = 0.2
-LogoRing1.Parent = LogoFrame
+-- 1. Внешняя тонкая бирюзовая орбита
+local OuterRing = Instance.new("Frame")
+OuterRing.Size = UDim2.new(0, 42, 0, 42)
+OuterRing.Position = UDim2.new(0.5, -21, 0.5, -21)
+OuterRing.BackgroundTransparency = 1
+OuterRing.Parent = LogoFrame
 
-local Ring1Corner = Instance.new("UICorner")
-Ring1Corner.CornerRadius = UDim.new(1, 0)
-Ring1Corner.Parent = LogoRing1
+Instance.new("UICorner", OuterRing).CornerRadius = UDim.new(1, 0)
+local OuterStroke = Instance.new("UIStroke", OuterRing)
+OuterStroke.Color = Color3.fromRGB(0, 200, 255) -- Бирюзовый
+OuterStroke.Thickness = 1.5
 
-local Ring1Stroke = Instance.new("UIStroke")
-Ring1Stroke.Color = Color3.fromRGB(0, 255, 204)
-Ring1Stroke.Thickness = 2
-Ring1Stroke.Parent = LogoRing1
+-- 2. Среднее неоновое розово-красное кольцо
+local MiddleRing = Instance.new("Frame")
+MiddleRing.Size = UDim2.new(0, 32, 0, 32)
+MiddleRing.Position = UDim2.new(0.5, -16, 0.5, -16)
+MiddleRing.BackgroundTransparency = 1
+MiddleRing.Parent = LogoFrame
 
-local LogoRing2 = Instance.new("Frame")
-LogoRing2.Size = UDim2.new(0, 36, 0, 36)
-LogoRing2.Position = UDim2.new(0.5, -18, 0.5, -18)
-LogoRing2.BackgroundTransparency = 1
-LogoRing2.Parent = LogoFrame
+Instance.new("UICorner", MiddleRing).CornerRadius = UDim.new(1, 0)
+local MiddleStroke = Instance.new("UIStroke", MiddleRing)
+MiddleStroke.Color = Color3.fromRGB(255, 40, 80) -- Розово-красный неон
+MiddleStroke.Thickness = 2.5
 
-local Ring2Corner = Instance.new("UICorner")
-Ring2Corner.CornerRadius = UDim.new(1, 0)
-Ring2Corner.Parent = LogoRing2
+-- 3. Центральное сплошное голубое ядро
+local CenterCore = Instance.new("Frame")
+CenterCore.Size = UDim2.new(0, 20, 0, 20)
+CenterCore.Position = UDim2.new(0.5, -10, 0.5, -10)
+CenterCore.BackgroundColor3 = Color3.fromRGB(0, 130, 255) -- Голубой
+CenterCore.BorderSizePixel = 0
+CenterCore.Parent = LogoFrame
 
-local Ring2Stroke = Instance.new("UIStroke")
-Ring2Stroke.Color = Color3.fromRGB(0, 150, 255)
-Ring2Stroke.Thickness = 1
-Ring2Stroke.Parent = LogoRing2
+Instance.new("UICorner", CenterCore).CornerRadius = UDim.new(1, 0)
 
+-- Эффект «дыхания» и пульсации для ядра и колец
 task.spawn(function()
-    while task.wait(0.1) do
+    while task.wait(0.05) do
         if MainFrame.Parent then
-            local timeFactor = os.clock()
-            local sizeOffset = math.sin(timeFactor * 3) * 3
-            LogoRing1.Size = UDim2.new(0, 24 + sizeOffset, 0, 24 + sizeOffset)
-            LogoRing1.Position = UDim2.new(0.5, -(12 + sizeOffset/2), 0.5, -(12 + sizeOffset/2))
-            local hue = (timeFactor * 0.05) % 1
-            local neonColor = Color3.fromHSV(hue, 0.8, 1)
-            Ring1Stroke.Color = neonColor
-            MainStroke.Color = neonColor
+            local t = os.clock()
+            -- Мягкая пульсация размеров
+            local pulse = math.sin(t * 4) * 2
+            CenterCore.Size = UDim2.new(0, 20 + pulse, 0, 20 + pulse)
+            CenterCore.Position = UDim2.new(0.5, -(10 + pulse/2), 0.5, -(10 + pulse/2))
+            
+            local ringPulse = math.cos(t * 4) * 1.5
+            MiddleRing.Size = UDim2.new(0, 32 + ringPulse, 0, 32 + ringPulse)
+            MiddleRing.Position = UDim2.new(0.5, -(16 + ringPulse/2), 0.5, -(16 + ringPulse/2))
         end
     end
 end)
+-- ========================================================
 
 local NavContainer = Instance.new("Frame")
 NavContainer.Size = UDim2.new(1, 0, 1, -70)
@@ -253,25 +267,22 @@ local function createCheckbox(text, parent)
     Label.TextColor3 = Color3.fromRGB(150, 150, 160)
     Label.Font = Enum.Font.GothamSemibold
     Label.TextSize = 13
-    Label.TextXAlignment = Enum.TextXAlignment.Left
-    Label.Parent = Box
-
-    local active = false
-    Clicker.MouseButton1Click:Connect(function()
-        active = not active
-        local targetColor = active and Color3.fromRGB(0, 150, 255) or Color3.fromRGB(20, 20, 25)
-        local strokeColor = active and Color3.fromRGB(0, 200, 255) or Color3.fromRGB(45, 45, 50)
-        local textColor = active and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(150, 150, 160)
-        
-        TweenService:Create(Clicker, TWEEN_INFO, {BackgroundColor3 = targetColor}):Play()
-        TweenService:Create(ClickStroke, TWEEN_INFO, {Color = strokeColor}):Play()
-        TweenService:Create(Label, TWEEN_INFO, {TextColor3 = textColor}):Play()
-    end)
+Label.TextXAlignment = Enum.TextXAlignment.Left
+Label.Parent = Box
+local active = false
+Clicker.MouseButton1Click:Connect(function()
+active = not active
+local targetColor = active and Color3.fromRGB(0, 150, 255) or Color3.fromRGB(20, 20, 25)
+local strokeColor = active and Color3.fromRGB(0, 200, 255) or Color3.fromRGB(45, 45, 50)
+local textColor = active and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(150, 150, 160)
+TweenService:Create(Clicker, TWEEN_INFO, {BackgroundColor3 = targetColor}):Play()
+TweenService:Create(ClickStroke, TWEEN_INFO, {Color = strokeColor}):Play()
+TweenService:Create(Label, TWEEN_INFO, {TextColor3 = textColor}):Play()
+end)
 end
-
 local function createDropdown(text, parent)
-    local Drop = Instance.new("Frame")
-    Drop.Size = UDim2.new(1, 0, 0, 48)
+local Drop = Instance.new("Frame")
+Drop.Size = UDim2.new(1, 0, 0, 48)
 Drop.BackgroundTransparency = 1
 Drop.Parent = parent
 local Label = Instance.new("TextLabel")
@@ -396,4 +407,4 @@ local delta = input.Position - dragStart
 MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 end
 end)
-print("Премиум GUI успешно загружено!")
+print("Премиум GUI Fatality успешно загружено!")
